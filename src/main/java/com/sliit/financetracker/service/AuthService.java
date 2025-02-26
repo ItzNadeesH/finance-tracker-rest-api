@@ -22,14 +22,9 @@ public class AuthService {
             throw new IllegalArgumentException("Email already in use");
         }
 
-        User user = new User();
-        user.setUsername(username);
-        user.setEmail(email);
-        user.setPassword(password);
-        user.setRole(role);
+        User user = new User(username, email, password);
 
         userRepository.save(user);
-
     }
 
 }

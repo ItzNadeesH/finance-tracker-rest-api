@@ -2,6 +2,7 @@ package com.sliit.financetracker.controller;
 
 import com.sliit.financetracker.model.User;
 import com.sliit.financetracker.service.AuthService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signup(@RequestBody User user) {
+    public ResponseEntity<String> signup(@RequestBody @Valid User user) {
         try {
             authService.createUser(user.getUsername(), user.getEmail(), user.getPassword(), user.getRole());
             return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully!");
