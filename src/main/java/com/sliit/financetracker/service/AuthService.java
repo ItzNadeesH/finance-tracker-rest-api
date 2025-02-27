@@ -41,7 +41,7 @@ public class AuthService {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid email address"));
 
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), password));
         } catch (BadCredentialsException e) {
             throw new IllegalArgumentException("Incorrect password");
         } catch (AuthenticationException e) {
