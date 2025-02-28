@@ -1,6 +1,7 @@
 package com.sliit.financetracker.config;
 
 import com.sliit.financetracker.service.JwtService;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -45,8 +46,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         final String authHeader = request.getHeader("Authorization");
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            filterChain.doFilter(request, response);
-            return;
+             filterChain.doFilter(request, response);
+             return;
         }
 
         try {
@@ -71,8 +72,17 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             }
 
             filterChain.doFilter(request, response);
+        } catch (JwtException e) {
+            invalidTokenResponse(response);
         } catch (Exception e) {
             handlerExceptionResolver.resolveException(request, response, null, e);
         }
+    }
+
+    private void invalidTokenResponse(HttpServletResponse response) throws IOException {
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setContentType("application/json");
+        response.getWriter().write("{\"error\": \"" + "Invalid token" + "\"}");
+        response.getWriter().flush();
     }
 }
