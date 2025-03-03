@@ -43,6 +43,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
 
+        if (request.getRequestURI().startsWith("/api/v1/auth")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         final String authHeader = request.getHeader("Authorization");
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -72,17 +77,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             }
 
             filterChain.doFilter(request, response);
-        } catch (JwtException e) {
-            invalidTokenResponse(response);
         } catch (Exception e) {
             handlerExceptionResolver.resolveException(request, response, null, e);
         }
-    }
-
-    private void invalidTokenResponse(HttpServletResponse response) throws IOException {
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.setContentType("application/json");
-        response.getWriter().write("{\"error\": \"" + "Invalid token" + "\"}");
-        response.getWriter().flush();
     }
 }
