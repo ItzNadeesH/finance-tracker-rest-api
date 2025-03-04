@@ -9,6 +9,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/v1/transaction")
 public class TransactionController {
@@ -23,6 +25,16 @@ public class TransactionController {
         return ResponseEntity.status(HttpStatus.OK).body(transactionService
                 .getTransactionsByUserId(userDetails.getUsername()));
     }
+
+    @GetMapping("/filter")
+    public ResponseEntity<?> getFilteredTransactions(@AuthenticationPrincipal UserDetails userDetails,
+                                                     @RequestParam(required = false) String type,
+                                                     @RequestParam(required = false) String category,
+                                                     @RequestParam(required = false) List<String> tags) {
+        return ResponseEntity.status(HttpStatus.OK).body(transactionService
+                .filterTransactions(userDetails.getUsername(), type, category, tags));
+    }
+
 
     @PostMapping
     public ResponseEntity<?> addTransaction(@AuthenticationPrincipal UserDetails userDetails,

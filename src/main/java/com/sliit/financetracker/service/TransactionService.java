@@ -2,6 +2,10 @@ package com.sliit.financetracker.service;
 
 import com.sliit.financetracker.model.Transaction;
 import com.sliit.financetracker.repository.TransactionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,6 +14,9 @@ import java.util.Optional;
 @Service
 public class TransactionService {
     private final TransactionRepository transactionRepository;
+
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
     public TransactionService(TransactionRepository transactionRepository) {
         this.transactionRepository = transactionRepository;
@@ -56,5 +63,29 @@ public class TransactionService {
         transactionRepository.deleteById(id);
 
         return transaction;
+    }
+
+    public List<Transaction> filterTransactions(String userId, String type, String category, List<String> tags) {
+        Query query = new Query(Criteria.where("userId").is(userId));
+
+        if (type != null) {
+            query.addCriteria(Criteria.where("type").regex("^" + type + "$", "i"));
+        }
+
+        if (category != null) {
+            query.addCriteria(Criteria.where("category").regex("^" + category + "$", "i"));
+        }
+
+        if (tags != null) {
+            query.addCriteria(Criteria.where("tags").all(tags));
+        }
+
+        List<Transaction> transactions = mongoTemplate.find(query, Transaction.class);
+
+        if (transactions.isEmpty()) {
+            throw new RuntimeException("No transactions found!");
+        }
+
+        return transactions;
     }
 }
