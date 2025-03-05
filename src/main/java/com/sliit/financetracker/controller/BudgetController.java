@@ -36,7 +36,6 @@ public class BudgetController {
                                           @RequestBody @Valid Budget budget) {
         if ("category".equals(budget.getType())) {
             Objects.requireNonNull(budget.getCategory(), "Category should not be null");
-            budget.setStartDate(null);
         } else if ("monthly".equals(budget.getType())) {
             Objects.requireNonNull(budget.getStartDate(), "Start date should not be null");
             budget.setCategory(null);
@@ -53,7 +52,6 @@ public class BudgetController {
                                           @RequestBody @Valid Budget budget) {
         if ("category".equals(budget.getType())) {
             Objects.requireNonNull(budget.getCategory(), "Category should not be null");
-            budget.setStartDate(null);
         } else if ("monthly".equals(budget.getType())) {
             Objects.requireNonNull(budget.getStartDate(), "Start date should not be null");
             budget.setCategory(null);

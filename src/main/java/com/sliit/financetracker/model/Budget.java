@@ -1,6 +1,7 @@
 package com.sliit.financetracker.model;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import org.springframework.data.annotation.Id;
@@ -25,7 +26,8 @@ public class Budget {
 
     private String category; // Optional: Only required for category-specific budgets
 
-    private LocalDate startDate; // Optional: Only required for monthly budgets
+    @NotNull(message = "Start date is required")
+    private LocalDate startDate;
 
     private LocalDate renewDate; // Optional: Only required for monthly budgets
 
