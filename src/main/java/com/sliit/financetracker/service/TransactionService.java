@@ -14,16 +14,20 @@ import java.util.Optional;
 @Service
 public class TransactionService {
     private final TransactionRepository transactionRepository;
+    private final NotificationService notificationService;
 
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    public TransactionService(TransactionRepository transactionRepository) {
+    public TransactionService(TransactionRepository transactionRepository, NotificationService notificationService) {
         this.transactionRepository = transactionRepository;
+        this.notificationService = notificationService;
     }
 
     public Transaction createTransaction(Transaction transaction) {
-        return transactionRepository.save(transaction);
+        Transaction newTransaction = transactionRepository.save(transaction);
+        notificationService.checkBudgetLimit(transaction.getUserId());
+        return newTransaction;
     }
 
     public Optional<Transaction> getTransactionById(String id, String userId) {
@@ -53,7 +57,10 @@ public class TransactionService {
         existingTransaction.setTags(updatedTransaction.getTags());
         existingTransaction.setDescription(updatedTransaction.getDescription());
 
-        return transactionRepository.save(existingTransaction);
+        Transaction newTransaction = transactionRepository.save(existingTransaction);
+        notificationService.checkBudgetLimit(existingTransaction.getUserId());
+
+        return newTransaction;
     }
 
     public Optional<Transaction> deleteTransaction(String id, String userId) {
