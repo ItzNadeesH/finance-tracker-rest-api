@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class NotificationService {
@@ -23,6 +24,26 @@ public class NotificationService {
         this.transactionRepository = transactionRepository;
         this.budgetRepository = budgetRepository;
 
+    }
+
+    public List<Notification> getNotifications(String userId) {
+        List<Notification> notifications = notificationRepository.findByUserId(userId);
+
+        if (notifications.isEmpty()) {
+            throw new  RuntimeException("No notifications found!");
+        }
+
+        return notifications;
+    }
+
+    public Notification getNotificationById(String id, String userId) {
+        Notification notification = notificationRepository.findByIdAndUserId(id, userId)
+                .orElseThrow(() -> new RuntimeException("Notification not found!"));
+
+        notification.setRead(true);
+        notificationRepository.save(notification);
+
+        return notification;
     }
 
     public void checkBudgetLimit(String userId) {
@@ -73,4 +94,6 @@ public class NotificationService {
         // Save the notification to DB, send email, or push notification
         notificationRepository.save(notification);
     }
+
+
 }
