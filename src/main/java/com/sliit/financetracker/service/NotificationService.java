@@ -114,7 +114,7 @@ public class NotificationService {
     }
 
     public void sendNotification(String userId, String referenceId, String message) {
-        if (notificationRepository.existsByUserIdAndBudgetIdAndMessage(userId, referenceId, message)) {
+        if (notificationRepository.existsByUserIdAndReferenceIdAndMessage(userId, referenceId, message)) {
             return;
         }
         Notification notification = new Notification(userId, referenceId, message,LocalDateTime.now());
