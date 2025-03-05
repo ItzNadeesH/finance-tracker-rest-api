@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface NotificationRepository extends MongoRepository<Notification, String> {
-    boolean existsByUserIdAndBudgetIdAndMessage(String userId, String budgetId, String message);
+    boolean existsByUserIdAndReferenceIdAndMessage(String userId, String referenceId, String message);
     List<Notification> findByUserId(String userId);
     Optional<Notification> findByIdAndUserId(String id, String userId);
 }

@@ -1,6 +1,8 @@
 package com.sliit.financetracker.service;
 
+import com.sliit.financetracker.model.Goal;
 import com.sliit.financetracker.model.Transaction;
+import com.sliit.financetracker.repository.GoalRepository;
 import com.sliit.financetracker.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -15,18 +17,27 @@ import java.util.Optional;
 public class TransactionService {
     private final TransactionRepository transactionRepository;
     private final NotificationService notificationService;
+    private final GoalRepository goalRepository;
 
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    public TransactionService(TransactionRepository transactionRepository, NotificationService notificationService) {
+    public TransactionService(TransactionRepository transactionRepository,
+                              NotificationService notificationService,
+                              GoalRepository goalRepository) {
         this.transactionRepository = transactionRepository;
         this.notificationService = notificationService;
+        this.goalRepository = goalRepository;
     }
 
     public Transaction createTransaction(Transaction transaction) {
         Transaction newTransaction = transactionRepository.save(transaction);
         notificationService.checkBudgetLimit(transaction.getUserId());
+
+        if (transaction.getType().equalsIgnoreCase("income")) {
+            allocateToGoals(transaction.getUserId(), transaction.getAmount());
+        }
+
         return newTransaction;
     }
 
@@ -94,5 +105,23 @@ public class TransactionService {
         }
 
         return transactions;
+    }
+
+    private void allocateToGoals(String userId, double incomeAmount) {
+        List<Goal> goals = goalRepository.findByUserId(userId);
+
+
+        for (Goal goal : goals) {
+            double allocatedAmount = 0;
+
+            if (goal.getIncomeAllocationPercentage() > 0) {
+                allocatedAmount = (incomeAmount * goal.getIncomeAllocationPercentage());
+            }
+
+            if (allocatedAmount > 0) {
+                goal.updateAmount(allocatedAmount);
+                goalRepository.save(goal);  // Persist the updated goal progress
+            }
+        }
     }
 }
