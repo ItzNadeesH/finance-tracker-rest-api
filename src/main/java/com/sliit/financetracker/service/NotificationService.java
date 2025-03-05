@@ -1,29 +1,32 @@
 package com.sliit.financetracker.service;
 
 import com.sliit.financetracker.model.*;
-import com.sliit.financetracker.repository.BudgetRepository;
-import com.sliit.financetracker.repository.NotificationRepository;
-import com.sliit.financetracker.repository.TransactionRepository;
+import com.sliit.financetracker.repository.*;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class NotificationService {
+    private final RecurringTransactionRepository recurringTransactionRepository;
     private final NotificationRepository notificationRepository;
     private final TransactionRepository transactionRepository;
     private final BudgetRepository budgetRepository;
+    private final UserRepository userRepository;
 
-    public NotificationService(NotificationRepository notificationRepository,
+    public NotificationService(RecurringTransactionRepository recurringTransactionRepository,
+                               NotificationRepository notificationRepository,
                                TransactionRepository transactionRepository,
-                               BudgetRepository budgetRepository) {
+                               BudgetRepository budgetRepository,
+                               UserRepository userRepository) {
+        this.recurringTransactionRepository = recurringTransactionRepository;
         this.notificationRepository = notificationRepository;
         this.transactionRepository = transactionRepository;
         this.budgetRepository = budgetRepository;
-
+        this.userRepository = userRepository;
     }
 
     public List<Notification> getNotifications(String userId) {
@@ -44,6 +47,16 @@ public class NotificationService {
         notificationRepository.save(notification);
 
         return notification;
+    }
+
+    @Scheduled(fixedRate = 86400000) // Run every 24 hours
+    public void sendDailyNotifications() {
+        List<User> users = userRepository.findAll();
+
+        for (User user : users) {
+            checkBudgetLimit(user.getUsername());
+            checkRecurringTransactions(user.getUsername());
+        }
     }
 
     public void checkBudgetLimit(String userId) {
@@ -85,11 +98,26 @@ public class NotificationService {
         });
     }
 
-    public void sendNotification(String userId, String budgetId, String message) {
-        if (notificationRepository.existsByUserIdAndBudgetIdAndMessage(userId, budgetId, message)) {
+    public void checkRecurringTransactions(String userId) {
+        List<RecurringTransaction> recurringTransactions = recurringTransactionRepository.findByUserId(userId);
+        LocalDate today = LocalDate.now();
+
+        recurringTransactions.forEach(transaction -> {
+            if (transaction.getNextTransactionDate().isEqual(today.plusDays(3))) {
+                sendNotification(userId, transaction.getId(),"Reminder: Your " + transaction.getPaymentName() +
+                        " is due in 3 days.");
+            } else if (transaction.getNextTransactionDate().isBefore(today)) {
+                sendNotification(userId, transaction.getId(),"Missed Transaction Alert: You missed a payment for " +
+                        transaction.getPaymentName() + " on " + transaction.getNextTransactionDate());
+            }
+        });
+    }
+
+    public void sendNotification(String userId, String referenceId, String message) {
+        if (notificationRepository.existsByUserIdAndBudgetIdAndMessage(userId, referenceId, message)) {
             return;
         }
-        Notification notification = new Notification(userId, budgetId, message,LocalDateTime.now());
+        Notification notification = new Notification(userId, referenceId, message,LocalDateTime.now());
 
         // Save the notification to DB, send email, or push notification
         notificationRepository.save(notification);
