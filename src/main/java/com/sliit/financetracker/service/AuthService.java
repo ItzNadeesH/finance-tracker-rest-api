@@ -24,16 +24,16 @@ public class AuthService {
         this.authenticationManager = authenticationManager;
     }
 
-    public void createUser(String username, String email, String password) {
+    public void createUser(User user) {
 
-        if (userRepository.existsByUsername(username)) {
+        if (userRepository.existsByUsername(user.getUsername())) {
             throw new IllegalArgumentException("Username already taken");
         }
-        if (userRepository.existsByEmail(email)) {
+        if (userRepository.existsByEmail(user.getEmail())) {
             throw new IllegalArgumentException("Email already in use");
         }
 
-        User user = new User(username, email, passwordEncoder.encode(password));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         userRepository.save(user);
     }
