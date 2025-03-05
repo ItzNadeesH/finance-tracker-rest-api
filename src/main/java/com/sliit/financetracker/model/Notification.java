@@ -13,7 +13,7 @@ public class Notification {
 
     private String userId;
 
-    private String budgetId;
+    private String referenceId;
 
     private String message;
 
@@ -21,9 +21,9 @@ public class Notification {
 
     private LocalDateTime sendAt;
 
-    public Notification(String userId, String budgetId, String message, LocalDateTime sendAt) {
+    public Notification(String userId, String referenceId, String message, LocalDateTime sendAt) {
         this.userId = userId;
-        this.budgetId = budgetId;
+        this.referenceId = referenceId;
         this.message = message;
         this.sendAt = sendAt;
         this.isRead = false;
@@ -45,12 +45,12 @@ public class Notification {
         this.userId = userId;
     }
 
-    public String getBudgetId() {
-        return budgetId;
+    public String getReferenceId() {
+        return referenceId;
     }
 
-    public void setBudgetId(String budgetId) {
-        this.budgetId = budgetId;
+    public void setReferenceId(String referenceId) {
+        this.referenceId = this.referenceId;
     }
 
     public String getMessage() {
