@@ -1,0 +1,1180 @@
+{
+	"info": {
+		"_postman_id": "3bfa4ee3-5fc9-443e-bfd0-52b3e77c38a3",
+		"name": "Finance Tracker",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31632053"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"nadeesh1@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/auth/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"nadeesh1\",\r\n    \"email\": \"nadeesh1@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"preferredCurrency\": \"USD\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/auth/signup",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transcations",
+			"item": [
+				{
+					"name": "Get Transaction by User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInN1YiI6Im5hZGVlc2giLCJpYXQiOjE3NDE0NjMxNDIsImV4cCI6MTc0MTQ5OTE0Mn0.dT3ZqGHh8jduGULo3LtmVk8ISYQfARmQiaUedxQPyNY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/transaction",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transaction by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInN1YiI6Im5hZGVlc2giLCJpYXQiOjE3NDE0NjMxNDIsImV4cCI6MTc0MTQ5OTE0Mn0.dT3ZqGHh8jduGULo3LtmVk8ISYQfARmQiaUedxQPyNY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/transaction/67c608888901b331f2ac6cfb",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"transaction",
+								"67c608888901b331f2ac6cfb"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transaction by Filters",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJzdWIiOiJuYWRlZXNoIiwiaWF0IjoxNzQxMDcwOTk5LCJleHAiOjE3NDExMDY5OTl9.9KA9OUx0Q65iZVI8kcUXWLiTsEaOCCUsWHyuTLRa4aA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/transaction/filter?type=expense&category=work&tags=%23work",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"transaction",
+								"filter"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "expense"
+								},
+								{
+									"key": "category",
+									"value": "work"
+								},
+								{
+									"key": "tags",
+									"value": "#work"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add a Transaction",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInN1YiI6Im5hZGVlc2giLCJpYXQiOjE3NDExNTgxNTUsImV4cCI6MTc0MTE5NDE1NX0.Bp6T3yvJHJD2p6IDTstMVUrtdOX8IP9u9OhDcdx8F7Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"amount\": \"10000\",\r\n    \"type\": \"Income\",\r\n    \"category\": \"Work\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/transaction",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Transaction by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJzdWIiOiJuYWRlZXNoIiwiaWF0IjoxNzQxMDcwOTk5LCJleHAiOjE3NDExMDY5OTl9.9KA9OUx0Q65iZVI8kcUXWLiTsEaOCCUsWHyuTLRa4aA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"amount\": 240,\r\n    \"type\": \"Expense\",\r\n    \"category\": \"Food\",\r\n    \"tags\": [\"#work\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/transaction/67c6312a966aaf06714d5f29",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"transaction",
+								"67c6312a966aaf06714d5f29"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Transaction by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInN1YiI6Im5hZGVlc2gxIiwiaWF0IjoxNzQxMDczMjc5LCJleHAiOjE3NDExMDkyNzl9.c0tBBKqE7lJU2rhBvI8HkBCDG8-EPBC9IvRvS1rLLAw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/transaction/67c6312a966aaf06714d5f29",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"transaction",
+								"67c6312a966aaf06714d5f29"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Recurring Transactions",
+			"item": [
+				{
+					"name": "Get Recurring Transactions by User ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJzdWIiOiJuYWRlZXNoIiwiaWF0IjoxNzQxMDcwOTk5LCJleHAiOjE3NDExMDY5OTl9.9KA9OUx0Q65iZVI8kcUXWLiTsEaOCCUsWHyuTLRa4aA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/recurring-transaction",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"recurring-transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Recurring Transaction by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJzdWIiOiJuYWRlZXNoIiwiaWF0IjoxNzQxMDcwOTk5LCJleHAiOjE3NDExMDY5OTl9.9KA9OUx0Q65iZVI8kcUXWLiTsEaOCCUsWHyuTLRa4aA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/recurring-transaction/67c70335a9c8000b067710bd",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"recurring-transaction",
+								"67c70335a9c8000b067710bd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a Recurring Transaction",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInN1YiI6Im5hZGVlc2giLCJpYXQiOjE3NDEyMDM5MDgsImV4cCI6MTc0MTIzOTkwOH0.WqVSsmMfWdMoJ70I-eVorAzO8LyeBnZ3GG56WPP7oFc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"paymentName\": \"Netflix Subscription\",\r\n    \"amount\": \"100\",\r\n    \"type\": \"Expense\",\r\n    \"category\": \"Entertainment\",\r\n    \"tags\": [\"#vacation\"],\r\n    \"description\": \"monthly subscription\",\r\n    \"frequency\": \"Monthly\",\r\n    \"startDate\": \"2025-03-25\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/recurring-transaction",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"recurring-transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Recurring Transaction",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJzdWIiOiJuYWRlZXNoIiwiaWF0IjoxNzQxMDcwOTk5LCJleHAiOjE3NDExMDY5OTl9.9KA9OUx0Q65iZVI8kcUXWLiTsEaOCCUsWHyuTLRa4aA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"paymentName\": \"Netflix Subscription1\",\r\n    \"amount\": \"100\",\r\n    \"type\": \"Expense\",\r\n    \"category\": \"Entertainment\",\r\n    \"tags\": [\"#vacation\"],\r\n    \"description\": \"monthly subscription\",\r\n    \"frequency\": \"Monthly\",\r\n    \"startDate\": \"2025-03-25\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/recurring-transaction/67c70335a9c8000b067710bd",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"recurring-transaction",
+								"67c70335a9c8000b067710bd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Recurring Transaction",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJzdWIiOiJuYWRlZXNoIiwiaWF0IjoxNzQxMDcwOTk5LCJleHAiOjE3NDExMDY5OTl9.9KA9OUx0Q65iZVI8kcUXWLiTsEaOCCUsWHyuTLRa4aA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/recurring-transaction/67c6f1c99e90512ceea8e411",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"recurring-transaction",
+								"67c6f1c99e90512ceea8e411"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Budget",
+			"item": [
+				{
+					"name": "Create a Budget",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInN1YiI6Im5hZGVlc2giLCJpYXQiOjE3NDExNTgxNTUsImV4cCI6MTc0MTE5NDE1NX0.Bp6T3yvJHJD2p6IDTstMVUrtdOX8IP9u9OhDcdx8F7Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"amount\": 20000,\r\n    \"type\": \"monthly\",\r\n    \"category\": \"Entertainment\",\r\n    \"startDate\": \"2025-03-04\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/budget",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"budget"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Budgets by User ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInN1YiI6Im5hZGVlc2gxIiwiaWF0IjoxNzQxMTA3MDczLCJleHAiOjE3NDExNDMwNzN9.NkmZWTdPiZ5vYaZ6EX8NWHVmihNy4Y0qiKqiRlZMm8A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/budget",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"budget"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Budget by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInN1YiI6Im5hZGVlc2gxIiwiaWF0IjoxNzQxMTA3MDczLCJleHAiOjE3NDExNDMwNzN9.NkmZWTdPiZ5vYaZ6EX8NWHVmihNy4Y0qiKqiRlZMm8A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/budget/67c72f8adb01256feeb51b79",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"budget",
+								"67c72f8adb01256feeb51b79"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Budget by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInN1YiI6Im5hZGVlc2gxIiwiaWF0IjoxNzQxMTA3MDczLCJleHAiOjE3NDExNDMwNzN9.NkmZWTdPiZ5vYaZ6EX8NWHVmihNy4Y0qiKqiRlZMm8A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"amount\": 35000,\r\n    \"type\": \"monthly\",\r\n    \"startDate\": \"2025-03-05\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/budget/67c72f8adb01256feeb51b79",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"budget",
+								"67c72f8adb01256feeb51b79"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Budget by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInN1YiI6Im5hZGVlc2gxIiwiaWF0IjoxNzQxMTA3MDczLCJleHAiOjE3NDExNDMwNzN9.NkmZWTdPiZ5vYaZ6EX8NWHVmihNy4Y0qiKqiRlZMm8A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/budget/67c72f8adb01256feeb51b79",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"budget",
+								"67c72f8adb01256feeb51b79"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Financial Report",
+			"item": [
+				{
+					"name": "Get Financial Report",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJzdWIiOiJuYWRlZXNoIiwiaWF0IjoxNzQxMjY3MTI3LCJleHAiOjE3NDEzMDMxMjd9.6pneZLuqPKjz3IHN-EpqTpZL4bbmxpwVRjkVMn0Tuwo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/reports?startDate=2025-03-01&endDate=2025-03-10&category=Food&tags=%23vacation,%23work",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"reports"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "2025-03-01"
+								},
+								{
+									"key": "endDate",
+									"value": "2025-03-10"
+								},
+								{
+									"key": "category",
+									"value": "Food"
+								},
+								{
+									"key": "tags",
+									"value": "%23vacation,%23work"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Notification",
+			"item": [
+				{
+					"name": "Get Notification by User ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInN1YiI6Im5hZGVlc2giLCJpYXQiOjE3NDExNTgxNTUsImV4cCI6MTc0MTE5NDE1NX0.Bp6T3yvJHJD2p6IDTstMVUrtdOX8IP9u9OhDcdx8F7Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/notification",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"notification"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Notification by ID",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/notification/67c80a3a31327445be566044",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"notification",
+								"67c80a3a31327445be566044"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Goal",
+			"item": [
+				{
+					"name": "Get Goals by User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInN1YiI6Im5hZGVlc2giLCJpYXQiOjE3NDExNTgxNTUsImV4cCI6MTc0MTE5NDE1NX0.Bp6T3yvJHJD2p6IDTstMVUrtdOX8IP9u9OhDcdx8F7Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/goal",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"goal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Goal by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInN1YiI6Im5hZGVlc2giLCJpYXQiOjE3NDExNTgxNTUsImV4cCI6MTc0MTE5NDE1NX0.Bp6T3yvJHJD2p6IDTstMVUrtdOX8IP9u9OhDcdx8F7Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/goal/67c84297572eef6cd0447e47",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"goal",
+								"67c84297572eef6cd0447e47"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a Goal",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInN1YiI6Im5hZGVlc2giLCJpYXQiOjE3NDExNTgxNTUsImV4cCI6MTc0MTE5NDE1NX0.Bp6T3yvJHJD2p6IDTstMVUrtdOX8IP9u9OhDcdx8F7Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"saving for a car\",\r\n    \"targetAmount\": 15000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/goal",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"goal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Goal Progress By ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInN1YiI6Im5hZGVlc2giLCJpYXQiOjE3NDExNTgxNTUsImV4cCI6MTc0MTE5NDE1NX0.Bp6T3yvJHJD2p6IDTstMVUrtdOX8IP9u9OhDcdx8F7Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/goal/67c84297572eef6cd0447e47?amount=8000",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"goal",
+								"67c84297572eef6cd0447e47"
+							],
+							"query": [
+								{
+									"key": "amount",
+									"value": "8000"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Goal by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInN1YiI6Im5hZGVlc2giLCJpYXQiOjE3NDExNTgxNTUsImV4cCI6MTc0MTE5NDE1NX0.Bp6T3yvJHJD2p6IDTstMVUrtdOX8IP9u9OhDcdx8F7Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"saving for a car\",\r\n    \"targetAmount\": 15000,\r\n    \"incomeAllocationPercentage\": 0.1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/goal/67c842a4377d0c06270d1bff",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"goal",
+								"67c842a4377d0c06270d1bff"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Goal by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInN1YiI6Im5hZGVlc2giLCJpYXQiOjE3NDExNTgxNTUsImV4cCI6MTc0MTE5NDE1NX0.Bp6T3yvJHJD2p6IDTstMVUrtdOX8IP9u9OhDcdx8F7Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/goal/67c842a4377d0c06270d1bff",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"goal",
+								"67c842a4377d0c06270d1bff"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Currency",
+			"item": [
+				{
+					"name": "Change Currency",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInN1YiI6Im5hZGVlc2giLCJpYXQiOjE3NDEyMDM5MDgsImV4cCI6MTc0MTIzOTkwOH0.WqVSsmMfWdMoJ70I-eVorAzO8LyeBnZ3GG56WPP7oFc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/user?currency=LKR",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"user"
+							],
+							"query": [
+								{
+									"key": "currency",
+									"value": "LKR"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Dashboard",
+			"item": [
+				{
+					"name": "Get Dashboard Data",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInN1YiI6Im5hZGVlc2gxIiwiaWF0IjoxNzQxMjY3MTExLCJleHAiOjE3NDEzMDMxMTF9.rscFM6AlbfXYalzSKkROlSKyg7x7jC6ESscbyLHU5_E",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/dashboard?startDate=2024-03-01&endDate=2024-03-30",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"dashboard"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "2024-03-01"
+								},
+								{
+									"key": "endDate",
+									"value": "2024-03-30"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Get current user details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInN1YiI6Im5hZGVlc2gxIiwiaWF0IjoxNzQxNjc5Mzk3LCJleHAiOjE3NDE3MTUzOTd9.nV7ThL-OzI_8OEBtp0J9TpgNMH1aRvYicnCdpCoD2Zk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/user/me",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInN1YiI6Im5hZGVlc2gxIiwiaWF0IjoxNzQxNjc5Mzk3LCJleHAiOjE3NDE3MTUzOTd9.nV7ThL-OzI_8OEBtp0J9TpgNMH1aRvYicnCdpCoD2Zk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"asd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/user/me",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInN1YiI6Im5hZGVlc2gxIiwiaWF0IjoxNzQxMjY3MTExLCJleHAiOjE3NDEzMDMxMTF9.rscFM6AlbfXYalzSKkROlSKyg7x7jC6ESscbyLHU5_E",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/user",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"user"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
