@@ -27,14 +27,14 @@ public class UserController {
                 .getUserByUsername(userDetails.getUsername()));
     }
 
-    @PutMapping("/")
+    @PutMapping
     public ResponseEntity<?> updateUser(@AuthenticationPrincipal UserDetails userDetails,
                                         @RequestBody @Valid User updatedUser) {
         return ResponseEntity.status(HttpStatus.OK).body(userService
                 .updateUserByUsername(userDetails.getUsername(), updatedUser));
     }
 
-    @DeleteMapping("/")
+    @DeleteMapping
     public ResponseEntity<?> deleteUser(@AuthenticationPrincipal UserDetails userDetails) {
         return ResponseEntity.status(HttpStatus.OK).body(userService
                 .deleteUserByUsername(userDetails.getUsername()));
@@ -45,5 +45,57 @@ public class UserController {
                                             @RequestParam String currency) {
         return ResponseEntity.status(HttpStatus.OK).body(currencyService
                 .changeCurrency(userDetails.getUsername(), currency));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateUserById(@AuthenticationPrincipal UserDetails userDetails,
+                                            @PathVariable String id,
+                                            @RequestBody @Valid User updatedUser) {
+        boolean isAdmin = userDetails.getAuthorities().stream()
+                .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
+
+        if (!isAdmin) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body("Access Denied: You do not have permission to update this user.");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(userService
+                .updateUserByUsername(id, updatedUser));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteUserById(@AuthenticationPrincipal UserDetails userDetails,
+                                            @PathVariable String id) {
+        boolean isAdmin = userDetails.getAuthorities().stream()
+                .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
+
+        if (!isAdmin) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body("Access Denied: You do not have permission to update this user.");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(userService
+                .deleteUserByUsername(id));
+    }
+
+    @PutMapping("/{id}/promote")
+    public ResponseEntity<?> promoteToAdmin(@AuthenticationPrincipal UserDetails userDetails,
+                                            @PathVariable String id) {
+        // Check if the authenticated user has the "ADMIN" role
+        boolean isAdmin = userDetails.getAuthorities().stream()
+                .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
+
+        if (!isAdmin) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body("Access Denied: You do not have permission to promote a user.");
+        }
+
+        boolean isPromoted = userService.promoteUserToAdmin(id);
+        if (isPromoted) {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body("User has been promoted to ADMIN successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("User not found or already has ADMIN role.");
+        }
     }
 }

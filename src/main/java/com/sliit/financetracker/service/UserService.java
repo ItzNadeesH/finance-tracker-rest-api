@@ -34,4 +34,16 @@ public class UserService {
         userRepository.delete(user);
         return user;
     }
+
+    public boolean promoteUserToAdmin(String userId) {
+        User user = userRepository.findByUsername(userId).orElse(null);
+
+        if (user == null || user.getAuthorities().contains("ROLE_ADMIN")) {
+            return false;
+        }
+
+        user.setRole("ADMIN");
+        userRepository.save(user);
+        return true;
+    }
 }
